@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Picker - CodePilot</title>
+    <!-- Static Tailwind v2 -->
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .bg-zinc-950 {
+            background-color: #09090b;
+        }
+
+        .bg-zinc-900 {
+            background-color: #18181b;
+        }
+
+        .bg-zinc-800 {
+            background-color: #27272a;
+        }
+
+        .text-zinc-200 {
+            color: #e4e4e7;
+        }
+
+        .text-zinc-400 {
+            color: #a1a1aa;
+        }
+
+        .border-zinc-800 {
+            border-color: #27272a;
+        }
+
+        .hover\:bg-zinc-800:hover {
+            background-color: #27272a;
+        }
+
+        body {
+            background-color: #09090b;
+            color: #e4e4e7;
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen flex flex-col p-4">
+    <div class="max-w-3xl mx-auto w-full flex-1 flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-xl font-bold">Select Directory</h1>
+            <a href="/" class="text-zinc-400 hover:text-white">Cancel</a>
+        </div>
+
+        <!-- Current Path Display -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded p-2 mb-4 flex gap-2 items-center">
+            <span class="text-zinc-400 text-sm">Path:</span>
+            <code class="text-sm font-mono flex-1">{{ current_path }}</code>
+            {% if parent_path %}
+            <a href="/picker?path={{ parent_path }}&mode={{ mode }}"
+                class="px-2 py-1 bg-zinc-800 hover:bg-zinc-700 rounded text-xs">Up</a>
+            {% endif %}
+        </div>
+
+        <!-- Directory List -->
+        <div class="flex-1 bg-zinc-900 border border-zinc-800 rounded overflow-y-auto p-2">
+            <div class="space-y-1">
+                {% for item in items %}
+                <div class="flex items-center justify-between p-2 hover:bg-zinc-800 rounded group">
+                    <a href="/picker?path={{ item.path }}&mode={{ mode }}" class="flex-1 flex items-center gap-2">
+                        <span>📂</span>
+                        <span class="text-sm">{{ item.name }}</span>
+                    </a>
+
+                    <!-- Select Button Logic -->
+                    <form action="{{ '/project/open' if mode == 'open' else '/picker/select' }}" method="POST">
+                        <input type="hidden" name="path" value="{{ item.path }}">
+                        <!-- If mode is create, we might need to return this path to the modal via query param? 
+                             Or strictly, 'Select This Folder' usually means 'Enter this folder and say OK'. 
+                             Let's support 'Select Current Folder' at the top/bottom, and 'Select' button on items? 
+                             Usually you select the *current* folder you are inside. -->
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="mt-4 flex justify-end gap-2 border-t border-zinc-800 pt-4">
+            <div class="text-xs text-zinc-500 flex-1 flex items-center">
+                Mode: {{ mode|upper }}
+            </div>
+
+            {% if mode == 'open' %}
+            <form action="/project/open" method="POST">
+                <input type="hidden" name="path" value="{{ current_path }}">
+                <button type="submit"
+                    class="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded text-sm font-medium">
+                    Open This Folder
+                </button>
+            </form>
+            {% else %}
+            <!-- Create Mode: We want to 'return' this path to the create modal -->
+            <!-- We can do this via GET redirect to home with a query param? keeping it simple -->
+            <a href="/?create_path={{ current_path }}#create-project-modal"
+                class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded text-sm font-medium">
+                Select This Location
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

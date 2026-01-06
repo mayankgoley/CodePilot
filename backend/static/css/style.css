@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Layout */
+body {
+    @apply antialiased overflow-hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-zinc-950;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-zinc-800 rounded-full border-2 border-zinc-950;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-700;
+}
+
+/* Editor adjustments */
+#editor-container .monaco-editor {
+    padding-top: 8px;
+}
+
+/* File Explorer Styles */
+.file-item,
+.folder-item {
+    @apply flex items-center px-2 py-1 cursor-pointer select-none text-sm text-zinc-400 border-l border-transparent;
+    transition: background-color 0.1s ease;
+}
+
+.file-item:hover,
+.folder-item:hover {
+    @apply bg-zinc-800/50 text-zinc-200;
+}
+
+.file-item.active {
+    @apply bg-blue-900/30 text-blue-400 border-l-2 border-blue-500;
+}
+
+.folder-content {
+    @apply ml-0;
+}

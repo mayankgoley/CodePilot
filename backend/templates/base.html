@@ -1,0 +1,150 @@
+<!-- Static Tailwind v2 (No JS) -->
+<link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<!-- Zinc Theme Polyfill (Tailwind v2 doesn't have Zinc) -->
+<style>
+    .bg-zinc-950 {
+        background-color: #09090b;
+    }
+
+    .bg-zinc-900 {
+        background-color: #18181b;
+    }
+
+    .bg-zinc-800 {
+        background-color: #27272a;
+    }
+
+    .bg-zinc-700 {
+        background-color: #3f3f46;
+    }
+
+    /* Approx */
+
+    .text-zinc-100 {
+        color: #f4f4f5;
+    }
+
+    .text-zinc-200 {
+        color: #e4e4e7;
+    }
+
+    .text-zinc-300 {
+        color: #d4d4d8;
+    }
+
+    .text-zinc-400 {
+        color: #a1a1aa;
+    }
+
+    .text-zinc-500 {
+        color: #71717a;
+    }
+
+    .text-zinc-600 {
+        color: #52525b;
+    }
+
+    .border-zinc-800 {
+        border-color: #27272a;
+    }
+
+    .border-zinc-700 {
+        border-color: #3f3f46;
+    }
+
+    .hover\:bg-zinc-800:hover {
+        background-color: #27272a;
+    }
+
+    .hover\:bg-zinc-700:hover {
+        background-color: #3f3f46;
+    }
+
+    .hover\:text-zinc-200:hover {
+        color: #e4e4e7;
+    }
+
+    .hover\:text-zinc-300:hover {
+        color: #d4d4d8;
+    }
+
+    /* Dark mode overrides if needed, but we force dark colors above */
+    body {
+        background-color: #09090b;
+        color: #e4e4e7;
+    }
+
+    /* Modal Fix for Tailwind v2 CDN */
+    #create-project-modal:target,
+    #open-project-modal:target,
+    #new-item-modal:target,
+    #delete-item-modal:target {
+        display: flex;
+    }
+
+    .markdown-body ul {
+        list-style-type: disc;
+        padding-left: 1.5em;
+        margin: 0.5em 0;
+    }
+
+    .markdown-body ol {
+        list-style-type: decimal;
+        padding-left: 1.5em;
+        margin: 0.5em 0;
+    }
+
+    .markdown-body pre {
+        background: #18181b;
+        padding: 0.5em;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin: 0.5em 0;
+        border: 1px solid #27272a;
+    }
+
+    .markdown-body code {
+        font-family: monospace;
+        background: #27272a;
+        padding: 0.1em 0.3em;
+        border-radius: 3px;
+        font-size: 0.9em;
+    }
+
+    .markdown-body pre code {
+        background: transparent;
+        padding: 0;
+        border: none;
+        font-size: 1em;
+    }
+
+    .markdown-body p {
+        margin: 0.5em 0;
+    }
+
+    .markdown-body strong {
+        font-weight: 600;
+        color: #e4e4e7;
+    }
+</style>
+
+<!-- XTerm CSS only (optional, might remove if not using terminal view) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css" />
+
+<link rel="stylesheet" href="/static/css/style.css">
+<!-- Lucide Icons (We needed JS for this to render? Yes. We might need to switch to SVG sprite or server-side icons if strictly NO JS) -->
+<!-- For now, the user said NO JS. Logic: Lucide needs JS to replace <i data-lucide>... 
+         If strictly NO JS, we must serve SVGs directly or use a font. 
+         Plan check: "Replace File Tree with SSR & Links". 
+         I should probably remove Lucide JS script too. -->
+</head>
+
+<body class="bg-zinc-950 text-zinc-200 h-screen w-screen overflow-hidden font-sans">
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+</html>

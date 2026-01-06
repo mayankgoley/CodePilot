@@ -1,0 +1,56 @@
+{% macro render_tree(nodes) %}
+<ul class="pl-2 border-l border-zinc-800 ml-1 space-y-0.5">
+    {% for node in nodes %}
+    <li>
+        {% if node.children is defined %}
+        <details class="group open:text-zinc-200">
+            <summary
+                class="flex items-center cursor-pointer py-1 px-1 hover:bg-zinc-800 rounded text-zinc-400 select-none text-xs">
+                <span class="mr-1 group-open:rotate-90 transition-transform">▸</span>
+                <span class="mr-1">📁</span>
+                <span class="flex-1 truncate">{{ node.name }}</span>
+                <!-- Add Item Button -->
+                <a href="/?new_item_path={{ node.id }}#new-item-modal"
+                    class="opacity-0 group-hover:opacity-100 px-1 text-zinc-500 hover:text-green-400"
+                    title="New File/Folder in {{ node.name }}">
+                    +
+                </a>
+                <!-- Delete Button -->
+                <a href="/?delete_path={{ node.id }}#delete-item-modal"
+                    class="opacity-0 group-hover:opacity-100 px-1 text-zinc-500 hover:text-red-400"
+                    title="Delete {{ node.name }}">
+                    ×
+                </a>
+            </summary>
+            {{ render_tree(node.children) }}
+        </details>
+        {% else %}
+        <div class="group flex items-center hover:bg-zinc-800 rounded pr-1">
+            <a href="/?file={{ node.id }}"
+                class="flex-1 flex items-center py-1 px-6 text-zinc-400 text-xs block truncate {{ 'text-blue-400 bg-zinc-800' if request.query_params.get('file') == node.id else '' }}">
+                <span class="mr-1">📄</span>
+                {{ node.name }}
+            </a>
+            <a href="/?delete_path={{ node.id }}#delete-item-modal"
+                class="opacity-0 group-hover:opacity-100 px-1 text-zinc-600 hover:text-red-400 text-xs"
+                title="Delete {{ node.name }}">
+                ×
+            </a>
+        </div>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endmacro %}
+
+<div class="text-sm font-mono p-2">
+    <!-- Root Add Button -->
+    <div class="flex items-center justify-between mb-2 px-2">
+        <span class="text-xs text-zinc-500 uppercase tracking-wider">Explorer</span>
+        <a href="/?new_item_path={{ request.query_params.get('current_path') if request.query_params.get('current_path') else '.' }}#new-item-modal"
+            class="text-zinc-500 hover:text-green-400 text-xs" title="New at Root">
+            +
+        </a>
+    </div>
+    {{ render_tree(tree) }}
+</div>
